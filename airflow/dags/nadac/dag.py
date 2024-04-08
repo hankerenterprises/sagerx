@@ -34,15 +34,17 @@ def nadac():
                 self.dataset_dict = self._build_dataset()
 
             def _build_dataset(self):
-                url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&theme=National%20Average%20Drug%20Acquisition%20Cost"
+                # url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&theme=National%20Average%20Drug%20Acquisition%20Cost"
+                url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&keyword=drug+acquisition+cost"
                 response = requests.get(url)
                 response.raise_for_status()
                 result_json = response.json()["results"]
                 dataset_dict = {}
                 for key, value in result_json.items():
-                    dataset_dict[value["title"]] = value["distribution"][0][
-                        "downloadURL"
-                    ]
+                    if "National Average Drug Acquisition Cost" in value["title"]:
+                        dataset_dict[value["title"]] = value["distribution"][0][
+                            "downloadURL"
+                        ]
                 return dataset_dict
 
             def get_download_url(self, year):
