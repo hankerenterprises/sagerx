@@ -35,7 +35,7 @@ def nadac():
 
             def _build_dataset(self):
                 # url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&theme=National%20Average%20Drug%20Acquisition%20Cost"
-                url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&keyword=drug+acquisition+cost"
+                url = "https://data.medicaid.gov/api/1/search/?sort=modified&sort-order=desc&theme=National%20Average%20Drug%20Acquisition%20Cost&page-size=20"
                 response = requests.get(url)
                 response.raise_for_status()
                 result_json = response.json()["results"]
