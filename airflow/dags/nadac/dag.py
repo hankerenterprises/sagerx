@@ -41,7 +41,7 @@ def nadac():
                 result_json = response.json()["results"]
                 dataset_dict = {}
                 for key, value in result_json.items():
-                    if "National Average Drug Acquisition Cost" in value["title"]:
+                    if "NADAC (National Average Drug Acquisition Cost)" in value["title"]:
                         dataset_dict[value["title"]] = value["distribution"][0][
                             "downloadURL"
                         ]
