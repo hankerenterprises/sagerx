@@ -84,7 +84,7 @@ def process_dailymed(data_folder, xslt, ti):
 
     for zip_folder in data_folder.iterdir():
         logging.info(zip_folder)
-        if re.match(".*\.zip", zip_folder):
+        try:
             with zipfile.ZipFile(zip_folder) as unzipped_folder:
                 folder_name = zip_folder.stem
                 for subfile in unzipped_folder.infolist():
@@ -104,6 +104,9 @@ def process_dailymed(data_folder, xslt, ti):
                             if_exists="append",
                             index=False,
                         )
+        except Exception as e:
+            logging.warning(e)
+
 
 
 ########################### DYNAMIC DAG DO NOT TOUCH BELOW HERE #################################
