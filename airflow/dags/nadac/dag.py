@@ -7,7 +7,8 @@ from sagerx import get_dataset, read_sql_file, get_sql_list, alert_slack_channel
 from airflow.decorators import dag, task
 
 from airflow.providers.postgres.operators.postgres import PostgresOperator
-from airflow.hooks.subprocess import SubprocessHook
+
+from common_dag_tasks import run_subprocess_command
 
 starting_date = pendulum.parse("2013-12-01")
 
@@ -25,7 +26,7 @@ def nadac():
     ds_folder = Path("/opt/airflow/dags") / dag_id
     data_folder = Path("/opt/airflow/data") / dag_id
 
-    @task()
+    @task
     def extract(data_interval_start=None):
         import requests
 
@@ -81,9 +82,7 @@ def nadac():
     # Task to transform data using dbt
     @task
     def transform():
-        subprocess = SubprocessHook()
-        result = subprocess.run_command(['dbt', 'run', '--select', 'models/staging/nadac'], cwd='/dbt/sagerx')
-        print("Result from dbt:", result)
+        run_subprocess_command(['dbt', 'run', '--select', 'models/staging/nadac'], cwd='/dbt/sagerx')
 
     extract() >> load >> transform()
 
