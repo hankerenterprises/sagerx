@@ -76,8 +76,10 @@ def rxnorm():
     # Task to transform data using dbt
     @task
     def transform():
-        run_subprocess_command(['docker', 'exec', 'dbt', 'dbt', 'run', '--select', 'models/staging/rxnorm', 'models/intermediate/rxnorm'], cwd='/dbt/sagerx')
-
+        # WHY???? not there is a docker in docker depenedency
+        # run_subprocess_command(['docker', 'exec', 'dbt', 'dbt', 'run', '--select', 'models/staging/rxnorm', 'models/intermediate/rxnorm'], cwd='/dbt/sagerx')
+        run_subprocess_command(['dbt', 'run', '--select', 'models/staging/rxnorm', 'models/intermediate/rxnorm'], cwd='/dbt/sagerx')
+        
     extract(get_st(get_tgt())) >> load >> transform()
 
 rxnorm()
