@@ -47,8 +47,8 @@ def rxnorm():
         run_subprocess_command(['dbt', 'run', '--select', 'models/staging/rxnorm', 'models/intermediate/rxnorm'], cwd='/dbt/sagerx')
         
     # extract(get_st(get_tgt())) >> load >> transform()
-    transform_task = transform(dag_id, models_subdir=['staging', 'intermediate'])
+    # transform_task = transform(dag_id, models_subdir=['staging', 'intermediate'])
 
-    extract_task >> load >> transform_task
+    extract_task >> load >> transform()
 
 rxnorm()
